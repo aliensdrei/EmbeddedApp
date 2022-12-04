@@ -15,9 +15,9 @@
             var randomString = ""; 
             randomString += crypto.getRandomValues(16).toString(16); 
             var loginUrl = "https://webexapis.com/v1/authorize?client_id=Cde53959a777148995217c237e6df05b687729a7e407315ca1175521210097860&response_type=token&redirect_uri=https%3A%2F%2Fapp.collab.rocks%2FWebRTC%2Fauth&scope=spark%3Akms%20spark-admin%3Adevices_read%20spark%3Axapi_statuses%20spark%3Axapi_commands&state="
-            
+
             document.addEventListener("DOMContentLoaded", (event) => {
-                document.getElementById("logout_btn").href = loginUrl + randomString}
+                document.getElementById("login").href = loginUrl + randomString}
             )
     </script>
     <div class="card mt-5 w-25 mx-auto border border-success">
