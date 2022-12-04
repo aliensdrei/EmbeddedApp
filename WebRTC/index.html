@@ -13,7 +13,7 @@
 <body> 
     <script>
             const randomString = Math.random().toString(36).substring(2,7);
-            var loginUrl = "https://webexapis.com/v1/authorize?client_id=Cde53959a777148995217c237e6df05b687729a7e407315ca1175521210097860&response_type=token&redirect_uri=https%3A%2F%2Fapp.collab.rocks%2FWebRTC%2Fauth&scope=spark%3Akms%20spark-admin%3Adevices_read%20spark%3Axapi_statuses%20spark%3Axapi_commands&state="
+            var loginUrl = "https://webexapis.com/v1/authorize?client_id=Cde53959a777148995217c237e6df05b687729a7e407315ca1175521210097860&response_type=token&redirect_uri=https%3A%2F%2Fapp.collab.rocks%2FWebRTC%2Fauth&scope=spark%3Akms%20spark-admin%3Adevices_read%20spark%3Axapi_statuses%20spark%3Axapi_commands&prompt=select_account&state="
 
             document.addEventListener("DOMContentLoaded", (event) => {
                 document.getElementById("login").href = loginUrl + randomString}
