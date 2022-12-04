@@ -27,10 +27,8 @@
 
         if (params.has("access_token")) {
             const token = params.get('access_token')
-            const logout_url = "https://idbroker.webex.com/idb/oauth2/v1/logout?token=" + token
 
             document.addEventListener("DOMContentLoaded", (event) => {
-                document.getElementById("logout_btn").href = logout_url
                 axios({
                     method: "GET",
                     headers: {
@@ -91,7 +89,6 @@
                 <button class="btn btn-success" type="button" onclick="JoinWebRTC()">Start Call</button>
             </div>
         </div>
-        <a class="btn" id="logout_btn" href="">Logout</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -10,16 +10,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body> 
+    <script>
+            var randomString = ""; 
+            randomString += crypto.getRandomValues(16).toString(16); 
+            var loginUrl = "https://webexapis.com/v1/authorize?client_id=Cde53959a777148995217c237e6df05b687729a7e407315ca1175521210097860&response_type=token&redirect_uri=https%3A%2F%2Fapp.collab.rocks%2FWebRTC%2Fauth&scope=spark%3Akms%20spark-admin%3Adevices_read%20spark%3Axapi_statuses%20spark%3Axapi_commands&state="
+            
+            document.addEventListener("DOMContentLoaded", (event) => {
+                document.getElementById("logout_btn").href = loginUrl + randomString}
+            )
+    </script>
     <div class="card mt-5 w-25 mx-auto border border-success">
         <div class="card-header bg-light">Welcome !</div>
         <div class="card-body">
             <h5 class="card-title">Please login to Webex</h5>
             <p class="card-text">(You must be an administrator)</p>
-            <a href="https://webexapis.com/v1/authorize?client_id=Cde53959a777148995217c237e6df05b687729a7e407315ca1175521210097860&response_type=token&redirect_uri=https%3A%2F%2Fapp.collab.rocks%2FWebRTC%2Fauth&scope=spark%3Akms%20spark-admin%3Adevices_read%20spark%3Axapi_statuses%20spark%3Axapi_commands&state=webRTC&prompt=select_account"
+            <a id="login" href=""
                 class="btn btn-success">Login</a>
         </div>
     </div>
+   
 </body>
 
 </html>
