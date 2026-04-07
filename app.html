@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Webex Embedded App Lab</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"
+    />
+    <script
+      src="https://binaries.webex.com/static-content-pipeline/webex-embedded-app/v1/webex-embedded-app-sdk.js"
+      defer
+    ></script>
+    <!-- Import the app's javascript file -->
+    <script src="./index.js" defer></script>
+  </head>
+
+  <body>
+    <div>
+      <h1>Webex Embedded App Lab</h1>
+      <h4>Launch the embedded app to all participants</h4>
+      <div>
+        <button onclick="handleSetShare()">setShareUrl()</button>
+        <button onclick="handleClearShare()">clearShareUrl()</button>
+        <!-- Add More Buttons Here-->
+        <button onclick="handleGetUser()">getUser()</button>
+        <textarea readonly id="userData"></textarea>
+        <!-- END -->
+      </div>
+    </div>
+  </body>
+</html>
