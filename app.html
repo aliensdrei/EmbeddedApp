@@ -1,33 +1,196 @@
-<!doctype html>
+
 <html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Webex Embedded App Lab</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"
-    />
-    <script
-      src="https://binaries.webex.com/static-content-pipeline/webex-embedded-app/v1/webex-embedded-app-sdk.js"
-      defer
-    ></script>
+    <title>Embedded Apps Kitchen Sink</title>
+    <!-- Import the app's stylesheet -->
+    <link rel="stylesheet" href="../assets/style.css"/>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://unpkg.com/@webex/embedded-app-sdk@latest" defer></script>
+    <script src="./loginWithWebex.js" defer></script>
     <!-- Import the app's javascript file -->
-    <script src="./index.js" defer></script>
   </head>
 
-  <body>
-    <div>
-      <h1>Webex Embedded App Lab</h1>
-      <h4>Launch the embedded app to all participants</h4>
-      <div>
-        <button onclick="handleSetShare()">setShareUrl()</button>
-        <button onclick="handleClearShare()">clearShareUrl()</button>
-        <!-- Add More Buttons Here-->
-        <button onclick="handleGetUser()">getUser()</button>
-        <textarea readonly id="userData"></textarea>
-        <!-- END -->
+  <body class="ks_app">
+    <div class="parent">
+      <div class="app left" id="app-left">
+        <h2>Embedded App Kitchen Sink</h2>
+        <div>
+          You're the HOST... On this page you will configure the embedded
+          application and launch it for everyone. This sample application shows
+          how to utilize the Webex Embedded App Framework to build an app.
+        </div>
+
+        <div class="parent" style="margin-top: 0px;">
+          <div class="left">
+            <b>Set log level -</b>
+            <select id="log-level">
+              <option value=0>INFO</option>
+              <option value=1>WARN</option>
+              <option value=2>ERROR</option>
+              <option value=3>SILENT</option>
+            </select>
+          </div>
+          <div class="right theme">
+            <div><b>Current Theme -</b></div>
+            <div id="currentTheme">&nbsp;</div>
+          </div>
+        </div>
+        <hr />
+
+        <button id="log-application" onclick="handleLogApplication()">Log 'app.application.states'</button>
+        <button id="log-user" onclick="handleLogUser()">Log 'app.application.states.user'</button>
+        <br/><hr/>
+
+        <h4>Launch the embedded app to participants</h4>
+        <div class="parent" style="margin-top: 0px;">
+          <div class="left" style="border-right: 0.5px solid #000;margin-right: 10px;">
+            <input
+              id="internalShareUrl"
+              placeholder="Internal URL (Opens in Webex)"
+              size="35"
+            />
+            <input
+              id="externalShareUrl"
+              placeholder="External URL (Opens in System Browser)"
+              size="35"
+            />
+            <input
+              id="presentationTitle"
+              placeholder="Presentation Title"
+              size="35"
+            />
+          </div>
+          <div class="right">
+            <button id="set-share-url" onclick="handleSetShare()">setShareUrl()</button>
+            <br/>
+            <button id="clear-share-url" onclick="handleClearShare()">clearShareUrl()</button>
+          </div>
+        </div>
+        <hr/>
+
+        <h4>Context Methods</h4>
+        <button id="get-user" onclick="handleGetUser()">getUser()</button>
+        <button id="get-space" onclick="handleGetSpace()">getSpace()</button>
+
+        <h5>Meetings</h5>
+        <button id="get-meeting" onclick="handleGetMeeting()">getMeeting()</button><br/>
+        <input id="presentation-url" placeholder="Enter presentation URL" disabled>
+        <input id="presentation-title" placeholder="Enter presentation title" disabled><br/>
+        <b>Share Mode -</b>
+        <select id="share-mode" disabled>
+          <option value=0>Auto Detect</option>
+          <option value=1>Video/Motion</option>
+          <option value=2>Text/Image</option>
+        </select>
+        <b>Include Audio -</b>
+        <select id="include-audio" disabled>
+          <option value=true>Yes</option>
+          <option value=false>No</option>
+        </select>
+        <br/>
+        <button id="set-presentation-url" onclick="handleSetPresentationUrl()" disabled>setPresentationUrl()</button>
+        <button id="clear-presentation-url" onclick="handleClearPresentationUrl()" disabled>clearPresentationUrl()</button>
+
+        <h5>Audio Devices</h5>
+        <audio id="audio-output" controls src="./sounds/Ringtone.mp3" type="audio/mpeg"></audio>
+        <br/>
+        <br/>
+        <b id="selected-device"></b>
+        <br/>
+      
+        <h5>Sidebar</h5>
+        <button id="get-sidebar" onclick="handleGetSidebar()">getSidebar()</button>
+        <button id="get-calls" onclick="handleGetCalls()" disabled>getCalls()</button>
+        <br/>
+        <b>Choose badge type -</b>
+        <select id="badge-type" disabled>
+          <option value="count">Count</option>
+          <option value="error">Error</option>
+        </select>
+        <input id="badge-count" value="0" type="number" placeholder="Enter count" disabled>
+        <br/>
+        <button id="show-badge" onclick="handleShowBadge()" disabled>showBadge(badge)</button>
+        <button id="clear-badge" onclick="handleClearBadge()" disabled>clearBadge()</button>
+        <br/>
+        <hr style="border: none; border-top: 0.5px solid #000; margin: 10px 0;"/>
+        <div style="margin: 10px 0;">
+          <div style="margin-bottom: 5px;">
+            <label style="display: inline-block; margin-right: 10px; font-weight: bold; min-width: 150px;">Notification Message:</label>
+            <input id="notification-message" placeholder="Enter notification message" value="You have a new message!" 
+                   style="width: 60%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" disabled>
+          </div>
+          <div style="margin-bottom: 5px;">
+            <label style="display: inline-block; margin-right: 10px; font-weight: bold; min-width: 150px;">Redirect URL:</label>
+            <input id="notification-redirect-url" placeholder="Enter redirect URL" value="https://example.com" 
+                   style="width: 60%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" disabled>
+          </div>
+          <button id="show-notification" onclick="handleShowNotification()" disabled>showNotification()</button><span class="beta-tag" data-tooltip="If this feature doesn't work for you, please contact Cisco team"><span class="beta-tag-text">Beta</span></span>
+        </div>
+        <hr/>
+
+        <h4>Open URL in System Browser</h4>
+        <input id="sys-browser-url" placeholder="Enter URL to open">
+        <button id="open-url-in-sys-browser" onclick="handleOpenUrlInSystemBrowser()">openUrlInSystemBrowser()</button><br/>
+        <hr/>
+
+        <h4>Authorization</h4>
+        <input id="sys-browser-oauth-url" placeholder="Enter URL to initiate">
+        <button id="open-oauth-url-in-sys-browser" onclick="handleInitiateSystemBrowserOAuth()">initiateSystemBrowserOAuth()</button>
+        (or)
+        <button onclick="handleLoginWithWebex()" style="margin-left: 10px;">Login with Webex</button>
+        <hr/>
+
+        <h3 id="storage_choices_title" onclick="expand(this,'#storage_choices')">> Storage Choices</h3>
+        <div id="storage_choices" class="closed">
+          <div>
+            <h4>Cookies!</h4>
+            <input
+              id="cookieField"
+              placeholder="Enter a cookie value"
+            /><br />
+            <button onclick="handleSetCookie()">Set Cookie</button>
+            <button onclick="handleGetCookie()">Get Cookie</button>
+            <button onclick="handleClearCookie()">Clear Cookie</button>
+          </div>
+          <div>
+            <h4>localStorage!</h4>
+            <input
+              id="localField"
+              placeholder="Enter a localStorage value"
+            /><br />
+            <button onclick="handleSetLocalStorage()">Set localStorage</button>
+            <button onclick="handleGetLocalStorage()">Get localStorage</button>
+            <button onclick="handleClearLocalStorage()">Clear localStorage</button>
+          </div>
+          <div>
+            <h4>sessionStorage!</h4>
+            <input
+              id="sessionField"
+              placeholder="Enter a sessionStorage value"
+            /><br />
+            <button onclick="handleSetSessionStorage()">Set sessionStorage</button>
+            <button onclick="handleGetSessionStorage()">Get sessionStorage</button>
+            <button onclick="handleClearSessionStorage()">
+              Clear sessionStorage
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="app right">
+        <div id="eventLogTitle">
+          <div id="title">Recent Event Logs</div>
+          <div id="button" onclick="clearLog()">Clear log</div>
+        </div>
+        <div>
+          <ul id="console" />
+        </div>
       </div>
     </div>
+    <script src="./index.js" defer></script>
+    <script src="./search.js" defer></script>
+    <script async src="../assets/search.js" id="search-script"></script>
+    <script src="../assets/main.js"></script>
   </body>
 </html>
