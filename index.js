@@ -8,12 +8,7 @@ const LOG_LEVELS = {
   SILENT: 3,
 }
 
-// import Application from '@webex/embedded-app-sdk';
-// const embedded_app = new Application();
-// await embedded_app.onReady();
-
 var embedded_app = new window.webex.Application();
-console.log(embeded_app)
 var sidebar, meetings;
 let deviceList;
 
